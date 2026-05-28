@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Portofolio profesional I Gede Andhika Pratama — Web Developer & UI/UX Enthusiast. Lihat karya, keahlian, dan hubungi saya.">
+    <title>Andhika Pratama | UI/UX Designer Portfolio</title>
+
+    <!-- Font Awesome 6 -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader" aria-hidden="true">
+        <div class="loader-ring"></div>
+        <span class="loader-label">Memuat...</span>
+    </div>
+
+    <!-- NAVIGATION (diperbaiki struktur) -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Navigasi utama">
+        <a href="#hero" class="glass-logo" aria-label="Beranda">
+            <img src="Foto-Profile.png" alt="Logo Andhika Pratama">
+        </a>
+        <ul class="nav-links" id="navLinks" role="menubar">
+            <li role="none"><a href="#hero" role="menuitem" class="active">Beranda</a></li>
+            <li role="none"><a href="#about" role="menuitem">Tentang</a></li>
+            <li role="none"><a href="#experience" role="menuitem">Pengalaman</a></li>
+            <li role="none"><a href="#skills" role="menuitem">Keahlian</a></li>
+            <li role="none"><a href="#projects" role="menuitem">Project</a></li>
+            <li role="none"><a href="#contact" role="menuitem">Kontak</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="themeToggle" aria-label="Toggle dark/light mode" title="Ganti tema">
+                <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
+            <button class="hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">Ready To Collaborate</span>
+            <h1>
+                Hi, I'm<br>
+                <span class="gradient-text">I Gede Andhika Pratama</span>
+            </h1>
+            <p class="hero-subtitle">
+                Saya seorang <strong id="typed-text"></strong> yang siap 
+                membangun pengalaman web anda menjadi menyenangkan, nyaman, dan mudah diakses.
+            </p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-arrow-down" aria-hidden="true"></i> Lihat Karya
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-envelope" aria-hidden="true"></i> Hubungi Saya
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Tentang</span>
+                <h2 class="section-title">Mengenal <span class="gradient-text">Saya</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="about-grid reveal">
+                <div class="about-image-wrapper">
+                    <img src="Foto-Profile.png"
+                    alt="Foto profil I Gede Andhika Pratama"
+                    loading="lazy"
+                    width="600"
+                    height="750">
+                </div>
+                <div class="about-text">
+                    <h3>UI/UX DESIGNER Yang Berfokus Pada <span class="gradient-text">kenyamanan &amp; Pengalaman Pengguna</span></h3>
+                    <p>
+                        Sejak 2025, saya telah membantu klien dan tim menciptakan produk digital
+                        yang tidak hanya terlihat baik, tetapi juga cepat, aksesibel, dan mudah
+                        di-maintain. Saya percaya bahwa kode yang bersih adalah fondasi dari
+                        pengalaman pengguna yang luar biasa.
+                    </p>
+                    <p>
+                        Di luar coding, saya aktif menulis artikel teknis, berkontribusi di
+                        komunitas open-source, dan selalu mengeksplorasi teknologi web terbaru.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">5+</span>
+                            <span class="stat-label">Proyek Selesai</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2</span>
+                            <span class="stat-label">Tahun Pengalaman</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4+</span>
+                            <span class="stat-label">Klien Puas</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i> Mulai Kolaborasi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Keahlian</span>
+                <h2 class="section-title">Teknologi yang Saya <span class="gradient-text">Kuasai</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="skills-grid stagger-children reveal">
+                <div class="skill-card">
+                    <span class="skill-icon"><i class="fab fa-html5" aria-hidden="true"></i></span>
+                    <h3>HTML5</h3>
+                    <div class="skill-level-dots" aria-label="Level: 5 dari 5">
+                        <span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                    </div>
+                    <p class="skill-desc">Semantik, aksesibel, SEO-friendly</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon"><i class="fab fa-css3-alt" aria-hidden="true"></i></span>
+                    <h3>CSS3 / Tailwind</h3>
+                    <div class="skill-level-dots" aria-label="Level: 5 dari 5">
+                        <span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                    </div>
+                    <p class="skill-desc">Responsive, animasi, design systems</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon"><i class="fab fa-js" aria-hidden="true"></i></span>
+                    <h3>JavaScript (ES6+)</h3>
+                    <div class="skill-level-dots" aria-label="Level: 4 dari 5">
+                        <span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot"></span>
+                    </div>
+                    <p class="skill-desc">DOM, async/await, API integration</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon"><i class="fab fa-react" aria-hidden="true"></i></span>
+                    <h3>React</h3>
+                    <div class="skill-level-dots" aria-label="Level: 4 dari 5">
+                        <span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot"></span>
+                    </div>
+                    <p class="skill-desc">Hooks, Context API, Next.js dasar</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon"><i class="fab fa-git-alt" aria-hidden="true"></i></span>
+                    <h3>Git & GitHub</h3>
+                    <div class="skill-level-dots" aria-label="Level: 4 dari 5">
+                        <span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot"></span>
+                    </div>
+                    <p class="skill-desc">Version control, CI/CD dasar</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon"><i class="fas fa-database" aria-hidden="true"></i></span>
+                    <h3>Node.js & Firebase</h3>
+                    <div class="skill-level-dots" aria-label="Level: 3 dari 5">
+                        <span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot filled"></span><span class="skill-dot"></span><span class="skill-dot"></span>
+                    </div>
+                    <p class="skill-desc">REST API, Firestore, Auth</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="experience">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Perjalanan</span>
+                <h2 class="section-title">Pengalaman & <span class="gradient-text">Sertifikat</span></h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="experience-glass-grid reveal">
+                <div class="timeline-column">
+                    <h3 class="glass-title"><i class="fas fa-briefcase" aria-hidden="true"></i> Pengalaman Kerja</h3>
+                    
+                    <div class="ios-glass-card">
+                        <div class="glass-card-content">
+                            <h4>UI/UX Designer</h4>
+                            <span class="glass-date">2023 - Sekarang</span>
+                            <p>Merancang antarmuka intuitif dan interaktif, berfokus pada kenyamanan pengguna serta aksesibilitas desain produk digital.</p>
+                        </div>
+                    </div>
+
+                    <div class="ios-glass-card">
+                        <div class="glass-card-content">
+                            <h4>Web Developer</h4>
+                            <span class="glass-date">2021 - 2023</span>
+                            <p>Membangun dan mengembangkan website responsif, mengoptimalkan kecepatan, dan menulis kode yang bersih.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="certificate-column">
+                    <h3 class="glass-title"><i class="fas fa-certificate" aria-hidden="true"></i> Lisensi & Sertifikasi</h3>
+                    
+                   <div class="ios-glass-card interactive-glass open-cert-btn" data-cert="sertifikat/belajar-dasar-ai.jpg" tabindex="0" role="button" aria-label="Lihat Sertifikat Belajar Dasar AI">
+    <div class="cert-content">
+        <div class="cert-icon"><i class="fas fa-award" aria-hidden="true"></i></div>
+        <div class="cert-info">
+            <h4>Belajar Dasar AI</h4>
+            <span class="glass-date">Dicoding | 2024</span> </div>
+        <i class="fas fa-chevron-right cert-arrow" aria-hidden="true"></i>
+    </div>
+</div>
+
+                    <div class="ios-glass-card interactive-glass open-cert-btn" data-cert="link-gambar-sertifikat-2.jpg" tabindex="0" role="button" aria-label="Lihat Sertifikat Frontend">
+                        <div class="cert-content">
+                            <div class="cert-icon"><i class="fas fa-medal" aria-hidden="true"></i></div>
+                            <div class="cert-info">
+                                <h4>Frontend Web Developer</h4>
+                                <span class="glass-date">Dicoding | 2023</span>
+                            </div>
+                            <i class="fas fa-chevron-right cert-arrow" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="certModal" class="glass-modal hidden" aria-hidden="true">
+        <div class="glass-modal-content">
+            <button class="close-modal" aria-label="Tutup modal"><i class="fas fa-times" aria-hidden="true"></i></button>
+            <img id="certModalImg" src="" alt="Detail Sertifikat">
+        </div>
+    </div>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Portofolio</span>
+                <h2 class="section-title">Project Terbaru <span class="gradient-text"></span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="project-filters reveal" id="filterContainer">
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="webapp">Web App</button>
+                <button class="filter-btn" data-filter="uiux">UI/UX</button>
+            </div>
+            <div class="projects-grid stagger-children reveal" id="projectsGrid">
+                <div class="project-card" data-category="webapp">
+                    <div class="project-img-wrap">
+                        <img src="https://placehold.co/600x400/1e293b/38bdf8?text=E-Commerce+Dashboard" alt="Dashboard E-Commerce" loading="lazy" width="600" height="400">
+                    </div>
+                    <div class="project-info">
+                        <h3>E-Commerce Dashboard</h3>
+                        <p>Dashboard admin responsif dengan grafik interaktif dan real-time data monitoring.</p>
+                        <div class="project-tags">
+                            <span class="tag">React</span><span class="tag">Chart.js</span><span class="tag">Tailwind</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" aria-label="Lihat demo E-Commerce Dashboard" title="Demo"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="#" aria-label="Lihat kode E-Commerce Dashboard" title="Source Code"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="webapp">
+                    <div class="project-img-wrap"><img src="https://placehold.co/600x400/1e293b/818cf8?text=Weather+App" alt="Weather App" loading="lazy" width="600" height="400"></div>
+                    <div class="project-info">
+                        <h3>Weather App</h3>
+                        <p>Aplikasi cuaca real-time menggunakan OpenWeather API dengan geolokasi.</p>
+                        <div class="project-tags"><span class="tag">JavaScript</span><span class="tag">API</span><span class="tag">CSS</span></div>
+                        <div class="project-links"><a href="#"><i class="fas fa-external-link-alt"></i></a><a href="#"><i class="fab fa-github"></i></a></div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="uiux">
+                    <div class="project-img-wrap"><img src="https://placehold.co/600x400/1e293b/38bdf8?text=Design+System" alt="Design System" loading="lazy" width="600" height="400"></div>
+                    <div class="project-info">
+                        <h3>Design System</h3>
+                        <p>Komponen UI yang dapat digunakan kembali dengan dokumentasi lengkap dan aksesibel.</p>
+                        <div class="project-tags"><span class="tag">Figma</span><span class="tag">Storybook</span><span class="tag">CSS</span></div>
+                        <div class="project-links"><a href="#"><i class="fas fa-external-link-alt"></i></a><a href="#"><i class="fab fa-github"></i></a></div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="mobile">
+                    <div class="project-img-wrap"><img src="https://placehold.co/600x400/1e293b/818cf8?text=Mobile+POS" alt="Mobile POS App" loading="lazy" width="600" height="400"></div>
+                    <div class="project-info">
+                        <h3>Mobile POS App</h3>
+                        <p>Aplikasi point-of-sale mobile dengan sinkronisasi data offline-first.</p>
+                        <div class="project-tags"><span class="tag">React Native</span><span class="tag">Firebase</span></div>
+                        <div class="project-links"><a href="#"><i class="fas fa-external-link-alt"></i></a><a href="#"><i class="fab fa-github"></i></a></div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="webapp">
+                    <div class="project-img-wrap"><img src="https://placehold.co/600x400/1e293b/38bdf8?text=Blog+Platform" alt="Blog Platform" loading="lazy" width="600" height="400"></div>
+                    <div class="project-info">
+                        <h3>Blog Platform</h3>
+                        <p>Platform blog headless dengan markdown editor dan performa Lighthouse 98.</p>
+                        <div class="project-tags"><span class="tag">Next.js</span><span class="tag">MDX</span><span class="tag">Vercel</span></div>
+                        <div class="project-links"><a href="#"><i class="fas fa-external-link-alt"></i></a><a href="#"><i class="fab fa-github"></i></a></div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="uiux">
+                    <div class="project-img-wrap"><img src="https://placehold.co/600x400/1e293b/818cf8?text=Redesign+Landing" alt="Landing Page Redesign" loading="lazy" width="600" height="400"></div>
+                    <div class="project-info">
+                        <h3>Landing Page Redesign</h3>
+                        <p>Redesign total landing page SaaS dengan peningkatan konversi 40%.</p>
+                        <div class="project-tags"><span class="tag">UI/UX</span><span class="tag">A/B Testing</span><span class="tag">Figma</span></div>
+                        <div class="project-links"><a href="#"><i class="fas fa-external-link-alt"></i></a><a href="#"><i class="fab fa-github"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION (typo diperbaiki) -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Contact</span>
+                <h2 class="section-title">Let's <span class="gradient-text">Talk With Me</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="contact-grid reveal">
+                <form class="contact-form" id="contactForm" novalidate>
+                    <input type="text" name="name" placeholder="Nama Lengkap" required autocomplete="name" aria-label="Nama lengkap">
+                    <input type="email" name="email" placeholder="Alamat Email" required autocomplete="email" aria-label="Alamat email">
+                    <textarea name="message" rows="5" placeholder="Tulis pesan Anda di sini..." required aria-label="Pesan Anda"></textarea>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i> Kirim Pesan
+                    </button>
+                </form>
+                <div class="contact-info">
+                    <div class="contact-info-item">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <span>igedeandhikapratama06@gmail.com</span>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-phone" aria-hidden="true"></i>
+                        <span>+62 857-9276-4316</span>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        <span>Jimbaran, Bali, Indonesia</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://twitter.com/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/d1kaaprtm_/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (diperbaiki) -->
+    <footer>
+        <p>&copy; <span id="currentYear"></span> I Gede Andhika Pratama. All rights reserved.</p>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button id="backToTop" aria-label="Kembali ke atas" title="Kembali ke atas">
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
+    </button>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
