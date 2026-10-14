@@ -26,6 +26,23 @@
     const projectCards = document.querySelectorAll('.project-card');
     const currentYearSpan = document.getElementById('currentYear');
     const typedElement = document.getElementById('typed-text');
+    const scrollProgress = document.getElementById('scrollProgress');
+    const toastContainer = document.getElementById('toastContainer');
+
+    // ========== TOAST NOTIFICATIONS (pengganti alert()) ==========
+    function showToast(message, type = 'info', duration = 3200) {
+        if (!toastContainer) return;
+        const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.setAttribute('role', 'status');
+        toast.innerHTML = `<i class="fas ${icons[type] || icons.info}" aria-hidden="true"></i><span>${message}</span>`;
+        toastContainer.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('toast-hide');
+            toast.addEventListener('animationend', () => toast.remove(), { once: true });
+        }, duration);
+    }
 
     // ========== CURRENT YEAR ==========
     if (currentYearSpan) {
@@ -77,6 +94,11 @@
         const scrollY = window.scrollY;
         if (navbar) navbar.classList.toggle('scrolled', scrollY > 50);
         if (backToTop) backToTop.classList.toggle('visible', scrollY > 600);
+        if (scrollProgress) {
+            const docHeight = html.scrollHeight - html.clientHeight;
+            const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+            scrollProgress.style.width = progress + '%';
+        }
         updateActiveNavLink();
     }, { passive: true });
 
@@ -141,7 +163,13 @@
         openCertBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const imgSrc = this.getAttribute('data-cert');
+                certModalImg.classList.remove('loaded');
                 certModalImg.src = imgSrc;
+                certModalImg.onload = () => certModalImg.classList.add('loaded');
+                certModalImg.onerror = () => {
+                    showToast('Gambar sertifikat tidak ditemukan. Cek kembali nama file/path.', 'error', 4000);
+                    closeCertModal();
+                };
                 certModal.classList.remove('hidden');
                 certModal.setAttribute('aria-hidden', 'false');
                 body.style.overflow = 'hidden'; 
@@ -156,7 +184,9 @@
             certModal.classList.add('hidden');
             certModal.setAttribute('aria-hidden', 'true');
             body.style.overflow = '';
-            setTimeout(() => { certModalImg.src = ''; }, 400);
+            certModalImg.onerror = null;
+            certModalImg.onload = null;
+            setTimeout(() => { certModalImg.removeAttribute('src'); }, 400);
         }
 
         if (closeModalBtn) {
@@ -176,7 +206,53 @@
         });
     }
 
-    // ========== PROJECT FILTER ==========
+    // ========== RIPPLE EFFECT (.btn & .filter-btn) ==========
+    function addRipple(e) {
+        const el = e.currentTarget;
+        const rect = el.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        el.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+    }
+    document.querySelectorAll('.btn, .filter-btn').forEach(btn => {
+        btn.addEventListener('click', addRipple);
+    });
+
+    // ========== CURSOR GLOW (skill-card & ios-glass-card) ==========
+    document.querySelectorAll('.skill-card, .ios-glass-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+        });
+    });
+
+    // ========== COPY TO CLIPBOARD (info kontak) ==========
+    document.querySelectorAll('.copyable').forEach(item => {
+        item.addEventListener('click', async () => {
+            const text = item.dataset.copy;
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch (err) {
+                const temp = document.createElement('textarea');
+                temp.value = text;
+                document.body.appendChild(temp);
+                temp.select();
+                document.execCommand('copy');
+                temp.remove();
+            }
+            item.classList.add('copied');
+            showToast(`Tersalin: ${text}`, 'success', 2000);
+            setTimeout(() => item.classList.remove('copied'), 1500);
+        });
+    });
+
+    // ========== PROJECT FILTER (dengan transisi halus) ==========
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
@@ -184,10 +260,13 @@
             const filter = btn.dataset.filter;
             projectCards.forEach(card => {
                 const category = card.dataset.category;
-                if (filter === 'all' || category === filter) {
+                const shouldShow = filter === 'all' || category === filter;
+                if (shouldShow) {
                     card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
+                    requestAnimationFrame(() => card.classList.remove('filtering-out'));
+                } else if (!card.classList.contains('hidden')) {
+                    card.classList.add('filtering-out');
+                    setTimeout(() => card.classList.add('hidden'), 250);
                 }
             });
         });
@@ -201,14 +280,15 @@
             const name = formData.get('name')?.trim();
             const email = formData.get('email')?.trim();
             const message = formData.get('message')?.trim();
-            if (!name || !email || !message) { alert('Mohon lengkapi semua field.'); return; }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Email tidak valid.'); return; }
+            if (!name || !email || !message) { showToast('Mohon lengkapi semua field.', 'error'); return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Email tidak valid.', 'error'); return; }
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalHTML = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
             submitBtn.disabled = true;
             setTimeout(() => {
-                alert(`✅ Pesan berhasil dikirim! (Simulasi)\nTerima kasih, ${name}!`);
+                const safeName = name.replace(/[<>&]/g, '');
+                showToast(`Pesan berhasil dikirim! Terima kasih, ${safeName}. (Simulasi)`, 'success', 4000);
                 contactForm.reset();
                 submitBtn.innerHTML = originalHTML;
                 submitBtn.disabled = false;
