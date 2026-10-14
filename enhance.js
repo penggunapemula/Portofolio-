@@ -58,6 +58,19 @@
             }, prefersReducedMotion ? 0 : 300);
         }
 
+        // Acak Fisher-Yates; ulangi sampai kartu teratas berbeda (maks. total-1 percobaan wajar)
+        function randomOrder(list) {
+            let result;
+            do {
+                result = [...list];
+                for (let i = result.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [result[i], result[j]] = [result[j], result[i]];
+                }
+            } while (total > 1 && result[0] === list[0]);
+            return result;
+        }
+
         // Kocok penuh: kartu menyebar seperti kipas, lalu kembali dengan urutan acak
         function shuffle() {
             if (busy) return;
@@ -69,11 +82,7 @@
             });
 
             setTimeout(() => {
-                const before = order.join();
-                let next;
-                do {
-                    next = [...order].sort(() => Math.random() - 0.5);
-                } while (total > 1 && next.join() === before);   // pastikan urutan berubah
+                const next = randomOrder(order);   // kartu teratas pasti berganti
 
                 order = next;
                 order.forEach((card, i) => (card.style.transitionDelay = `${i * 70}ms`));
@@ -386,45 +395,6 @@
         update();
     }
 
-    /* ==========================================================
-       10. KURSOR KACA — cincin yang membesar & berlabel
-       ========================================================== */
-    function initGlassCursor() {
-        if (prefersReducedMotion || !hasHover) return;
-
-        const ring = document.createElement('div');
-        ring.className = 'cursor-ring';
-        document.body.append(ring);
-
-        $('#deck')?.setAttribute('data-cursor', 'Kocok');
-        $$('.project-card').forEach((card) => card.setAttribute('data-cursor', 'Lihat'));
-
-        let x = 0, y = 0, rx = 0, ry = 0;
-        addEventListener('pointermove', (e) => {
-            x = e.clientX;
-            y = e.clientY;
-            ring.classList.add('show');
-        }, { passive: true });
-        document.addEventListener('pointerleave', () => ring.classList.remove('show'));
-        addEventListener('pointerdown', () => ring.classList.add('press'));
-        addEventListener('pointerup', () => ring.classList.remove('press'));
-
-        document.addEventListener('pointerover', (e) => {
-            const labelEl = e.target.closest('[data-cursor]');
-            const clickable = e.target.closest('a, button, .filter-btn, input, textarea');
-            ring.textContent = labelEl ? labelEl.dataset.cursor : '';
-            ring.classList.toggle('label', !!labelEl);
-            ring.classList.toggle('hover', !labelEl && !!clickable);
-        });
-
-        (function follow() {
-            rx += (x - rx) * 0.18;
-            ry += (y - ry) * 0.18;
-            ring.style.transform = `translate(${rx}px, ${ry}px)`;
-            requestAnimationFrame(follow);
-        })();
-    }
-
     /* ---------- Jalankan semua ---------- */
     initCertDeck();
     initAurora();
@@ -435,5 +405,4 @@
     initNavPill();
     initScrollSpy();
     initTimeline();
-    initGlassCursor();
 })();
