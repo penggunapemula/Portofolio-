@@ -373,12 +373,18 @@
         if (!column) return;
 
         const cards = $$('.ios-glass-card', column);
-        const dots = cards.map((card) => {
+
+        // Titik dipasang di kolom (bukan di dalam kartu) karena kartu memakai overflow: hidden
+        const dots = cards.map(() => {
             const dot = document.createElement('span');
             dot.className = 'tl-dot';
-            card.prepend(dot);
+            column.append(dot);
             return dot;
         });
+        const placeDots = () => dots.forEach((dot, i) => (dot.style.top = `${cards[i].offsetTop + 28}px`));
+        placeDots();
+        addEventListener('resize', placeDots);
+        addEventListener('load', placeDots);
 
         function update() {
             const rect = column.getBoundingClientRect();
@@ -395,14 +401,18 @@
         update();
     }
 
-    /* ---------- Jalankan semua ---------- */
-    initCertDeck();
-    initAurora();
-    initTiltAndMagnetic();
-    initCounters();
-    initThemeTransition();
-    initHeroParallax();
-    initNavPill();
-    initScrollSpy();
-    initTimeline();
+    /* ---------- Jalankan semua ----------
+       Dibungkus try/catch: kalau satu fitur gagal (mis. browser lama),
+       fitur lain dan seluruh halaman tetap jalan. */
+    [
+        initCertDeck, initAurora, initTiltAndMagnetic, initCounters,
+        initThemeTransition, initHeroParallax, initNavPill,
+        initScrollSpy, initTimeline,
+    ].forEach((init) => {
+        try {
+            init();
+        } catch (error) {
+            console.warn(`[enhance] ${init.name} dilewati:`, error);
+        }
+    });
 })();
