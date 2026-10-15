@@ -401,13 +401,127 @@
         update();
     }
 
+
+    /* ==========================================================
+       11. INTRO — kartu kaca dengan hitungan 0-100% (sekali per sesi)
+       ========================================================== */
+    function initLoader() {
+        const loader = $('#loader');
+        if (!loader) return;
+
+        let seen = false;
+        try { seen = sessionStorage.getItem('introSeen') === '1'; } catch (e) { /* mode privat */ }
+        const close = () => {
+            loader.classList.add('done');
+            setTimeout(() => loader.remove(), 1000);
+        };
+        if (seen || prefersReducedMotion) { loader.remove(); return; }
+        try { sessionStorage.setItem('introSeen', '1'); } catch (e) { /* abaikan */ }
+
+        const count = $('#loaderCount'), bar = $('#loaderBar');
+        const DURATION = 1100, start = performance.now();
+        (function tick(now) {
+            const p = Math.min((now - start) / DURATION, 1);
+            count.textContent = `${Math.round(p * 100)}%`;
+            bar.style.transform = `scaleX(${p})`;
+            p < 1 ? requestAnimationFrame(tick) : setTimeout(close, 250);
+        })(start);
+    }
+
+    /* ==========================================================
+       12. MARQUEE — strip teknologi berjalan di bawah hero
+       ========================================================== */
+    function initMarquee() {
+        const hero = $('#hero');
+        if (!hero) return;
+
+        const items = [
+            ['fab fa-figma', 'Figma'], ['fab fa-react', 'React'], ['fab fa-js', 'JavaScript'],
+            ['fab fa-html5', 'HTML5'], ['fab fa-css3-alt', 'CSS3'], ['fab fa-git-alt', 'Git'],
+            ['fas fa-pen-nib', 'UI/UX Design'], ['fas fa-mobile-screen', 'Responsive'], ['fas fa-bolt', 'Performance'],
+        ];
+        const pills = items.map(([icon, label]) =>
+            `<span class="marquee-item"><i class="${icon}" aria-hidden="true"></i>${label}</span>`).join('');
+
+        const strip = document.createElement('div');
+        strip.className = 'marquee';
+        strip.setAttribute('aria-hidden', 'true');
+        strip.innerHTML = `<div class="marquee-track">${pills}${pills}</div>`;   // digandakan untuk loop mulus
+        hero.after(strip);
+    }
+
+    /* ==========================================================
+       13. SPOTLIGHT — command palette (Ctrl/Cmd + K)
+       ========================================================== */
+    function initSpotlight() {
+        const EMAIL = 'igedeandhikapratama06@gmail.com';
+        const go = (id) => () => $(id)?.scrollIntoView({ behavior: 'smooth' });
+
+        const actions = [
+            { icon: 'fa-house',        label: 'Beranda',             run: go('#hero') },
+            { icon: 'fa-user',         label: 'Tentang',             run: go('#about') },
+            { icon: 'fa-briefcase',    label: 'Pengalaman & Sertifikat', run: go('#experience') },
+            { icon: 'fa-code',         label: 'Keahlian',            run: go('#skills') },
+            { icon: 'fa-layer-group',  label: 'Project',             run: go('#projects') },
+            { icon: 'fa-envelope',     label: 'Kontak',              run: go('#contact') },
+            { icon: 'fa-shuffle',      label: 'Acak sertifikat',     run: () => { go('#deck')(); setTimeout(() => $('#deckShuffle')?.click(), 700); } },
+            { icon: 'fa-expand',       label: 'Lihat sertifikat teratas', run: () => $('#deckOpen')?.click() },
+            { icon: 'fa-circle-half-stroke', label: 'Ganti tema gelap / terang', run: () => $('#themeToggle')?.click() },
+            { icon: 'fa-copy',         label: 'Salin email',         run: () => navigator.clipboard?.writeText(EMAIL) },
+        ];
+
+        // Bangun DOM
+        const root = document.createElement('div');
+        root.className = 'spot';
+        root.innerHTML = `
+            <div class="spot-panel" role="dialog" aria-modal="true" aria-label="Pencarian cepat">
+                <input class="spot-input" placeholder="Cari bagian atau aksi…" aria-label="Cari" autocomplete="off">
+                <ul class="spot-list" role="listbox"></ul>
+                <div class="spot-hint"><kbd>↑</kbd> <kbd>↓</kbd> pilih · <kbd>Enter</kbd> buka · <kbd>Esc</kbd> tutup</div>
+            </div>`;
+        const fab = document.createElement('button');
+        fab.className = 'spot-fab';
+        fab.setAttribute('aria-label', 'Buka pencarian cepat');
+        fab.innerHTML = '<i class="fas fa-magnifying-glass" aria-hidden="true"></i><span>Cari</span><kbd>Ctrl K</kbd>';
+        document.body.append(root, fab);
+
+        const input = $('.spot-input', root), list = $('.spot-list', root);
+        let shown = [], index = 0;
+
+        function render() {
+            const q = input.value.trim().toLowerCase();
+            shown = actions.filter((a) => a.label.toLowerCase().includes(q));
+            index = Math.min(index, Math.max(shown.length - 1, 0));
+            list.innerHTML = shown.length
+                ? shown.map((a, i) => `<li class="spot-item${i === index ? ' sel' : ''}" role="option" data-i="${i}"><i class="fas ${a.icon}"></i>${a.label}</li>`).join('')
+                : '<li class="spot-empty">Tidak ada hasil</li>';
+            $('.sel', list)?.scrollIntoView({ block: 'nearest' });
+        }
+        const open = () => { root.classList.add('open'); input.value = ''; index = 0; render(); setTimeout(() => input.focus(), 50); };
+        const close = () => root.classList.remove('open');
+        const choose = (i) => { const action = shown[i]; if (!action) return; close(); setTimeout(action.run, 250); };
+
+        fab.addEventListener('click', open);
+        root.addEventListener('click', (e) => { if (e.target === root) close(); });
+        list.addEventListener('click', (e) => { const li = e.target.closest('.spot-item'); if (li) choose(+li.dataset.i); });
+        input.addEventListener('input', () => { index = 0; render(); });
+        addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); root.classList.contains('open') ? close() : open(); return; }
+            if (!root.classList.contains('open')) return;
+            if (e.key === 'Escape') close();
+            if (e.key === 'ArrowDown') { e.preventDefault(); index = (index + 1) % shown.length; render(); }
+            if (e.key === 'ArrowUp')   { e.preventDefault(); index = (index - 1 + shown.length) % shown.length; render(); }
+            if (e.key === 'Enter')     { e.preventDefault(); choose(index); }
+        });
+    }
+
     /* ---------- Jalankan semua ----------
        Dibungkus try/catch: kalau satu fitur gagal (mis. browser lama),
        fitur lain dan seluruh halaman tetap jalan. */
     [
         initCertDeck, initAurora, initTiltAndMagnetic, initCounters,
         initThemeTransition, initHeroParallax, initNavPill,
-        initScrollSpy, initTimeline,
+        initScrollSpy, initTimeline, initLoader, initMarquee, initSpotlight,
     ].forEach((init) => {
         try {
             init();

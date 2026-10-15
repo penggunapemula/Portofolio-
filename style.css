@@ -1082,3 +1082,167 @@ html, body { max-width: 100%; overflow-x: clip; }
     .contact-info-item, .contact-info-item.copyable { gap: 12px; }
     .contact-info-item span { font-size: 0.78rem; }
 }
+
+/* ============================================================
+   NEXT LEVEL: intro, marquee teknologi, Spotlight (Ctrl+K)
+   ============================================================ */
+
+/* --- Intro pembuka (cadangan: hilang sendiri setelah 4 detik bila JS gagal) --- */
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    background: var(--bg-primary);
+    transition: transform 0.9s var(--ease-out-expo);
+    animation: loaderFallback 0.01s 4s forwards;
+}
+.loader.done { transform: translateY(-100%); }
+.loader-card {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: 34px 48px;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.loader-logo {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.loader-count { font-variant-numeric: tabular-nums; font-size: 0.9rem; color: var(--text-secondary); }
+.loader-bar { width: 160px; height: 4px; border-radius: 4px; background: rgba(148, 163, 184, 0.25); overflow: hidden; }
+.loader-bar i { display: block; height: 100%; width: 100%; background: var(--accent-gradient); transform: scaleX(0); transform-origin: left; }
+@keyframes loaderFallback { to { visibility: hidden; opacity: 0; } }
+
+/* --- Marquee teknologi --- */
+.marquee {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    padding: 18px 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track { display: flex; gap: 14px; width: max-content; animation: marquee 32s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border-radius: 99px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.marquee-item i { color: var(--accent-1); font-size: 1.1rem; }
+@keyframes marquee { to { transform: translateX(-50%); } }   /* isi digandakan, jadi -50% = loop mulus */
+
+/* --- Spotlight / command palette --- */
+.spot-fab {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    color: var(--text-primary);
+    font: 600 0.85rem var(--font-primary);
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: transform 0.25s var(--ease-out-expo);
+}
+.spot-fab:hover { transform: translateY(-3px); }
+.spot-fab kbd, .spot-hint kbd {
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: rgba(148, 163, 184, 0.25);
+    font: 600 0.72rem var(--font-primary);
+}
+.spot {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: grid;
+    justify-items: center;
+    align-items: start;
+    padding: 14vh 16px 16px;
+    background: rgba(2, 6, 23, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0s 0.25s;
+}
+.spot.open { opacity: 1; visibility: visible; transition: opacity 0.25s; }
+.spot-panel {
+    width: min(560px, 100%);
+    border-radius: 26px;
+    overflow: hidden;
+    background: rgba(30, 41, 59, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-14px) scale(0.96);
+    transition: transform 0.4s var(--ease-out-expo);
+}
+.spot.open .spot-panel { transform: none; }
+[data-theme="light"] .spot-panel { background: rgba(255, 255, 255, 0.78); }
+.spot-input {
+    width: 100%;
+    padding: 20px 24px;
+    border: 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    background: transparent;
+    color: var(--text-primary);
+    font: 500 1.05rem var(--font-primary);
+    outline: none;
+}
+.spot-list { max-height: 330px; overflow-y: auto; padding: 8px; list-style: none; margin: 0; }
+.spot-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+.spot-item i { width: 20px; text-align: center; color: var(--accent-1); }
+.spot-item.sel { background: rgba(56, 189, 248, 0.18); }
+.spot-empty { padding: 22px; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+.spot-hint { padding: 10px 18px; border-top: 1px solid rgba(148, 163, 184, 0.2); color: var(--text-muted); font-size: 0.75rem; }
+
+@media (max-width: 768px) {
+    .spot-fab { left: 14px; bottom: 14px; padding: 13px 15px; }
+    .spot-fab span, .spot-fab kbd, .spot-hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } .loader { transition: none; } }
+
+/* Chip UI/UX turun sedikit agar tidak menimpa nama saat animasi mengambang */
+.chip.c3 { bottom: -12%; }
