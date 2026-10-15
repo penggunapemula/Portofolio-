@@ -429,28 +429,6 @@
     }
 
     /* ==========================================================
-       12. MARQUEE — strip teknologi berjalan di bawah hero
-       ========================================================== */
-    function initMarquee() {
-        const hero = $('#hero');
-        if (!hero) return;
-
-        const items = [
-            ['fab fa-figma', 'Figma'], ['fab fa-react', 'React'], ['fab fa-js', 'JavaScript'],
-            ['fab fa-html5', 'HTML5'], ['fab fa-css3-alt', 'CSS3'], ['fab fa-git-alt', 'Git'],
-            ['fas fa-pen-nib', 'UI/UX Design'], ['fas fa-mobile-screen', 'Responsive'], ['fas fa-bolt', 'Performance'],
-        ];
-        const pills = items.map(([icon, label]) =>
-            `<span class="marquee-item"><i class="${icon}" aria-hidden="true"></i>${label}</span>`).join('');
-
-        const strip = document.createElement('div');
-        strip.className = 'marquee';
-        strip.setAttribute('aria-hidden', 'true');
-        strip.innerHTML = `<div class="marquee-track">${pills}${pills}</div>`;   // digandakan untuk loop mulus
-        hero.after(strip);
-    }
-
-    /* ==========================================================
        13. SPOTLIGHT — command palette (Ctrl/Cmd + K)
        ========================================================== */
     function initSpotlight() {
@@ -521,7 +499,7 @@
     [
         initCertDeck, initAurora, initTiltAndMagnetic, initCounters,
         initThemeTransition, initHeroParallax, initNavPill,
-        initScrollSpy, initTimeline, initLoader, initMarquee, initSpotlight,
+        initScrollSpy, initTimeline, initLoader, initSpotlight,
     ].forEach((init) => {
         try {
             init();

@@ -1084,7 +1084,7 @@ html, body { max-width: 100%; overflow-x: clip; }
 }
 
 /* ============================================================
-   NEXT LEVEL: intro, marquee teknologi, Spotlight (Ctrl+K)
+   NEXT LEVEL: intro dan Spotlight (Ctrl+K)
    ============================================================ */
 
 /* --- Intro pembuka (cadangan: hilang sendiri setelah 4 detik bila JS gagal) --- */
@@ -1124,35 +1124,6 @@ html, body { max-width: 100%; overflow-x: clip; }
 .loader-bar { width: 160px; height: 4px; border-radius: 4px; background: rgba(148, 163, 184, 0.25); overflow: hidden; }
 .loader-bar i { display: block; height: 100%; width: 100%; background: var(--accent-gradient); transform: scaleX(0); transform-origin: left; }
 @keyframes loaderFallback { to { visibility: hidden; opacity: 0; } }
-
-/* --- Marquee teknologi --- */
-.marquee {
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    padding: 18px 0;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-.marquee-track { display: flex; gap: 14px; width: max-content; animation: marquee 32s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-.marquee-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 22px;
-    border-radius: 99px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-.marquee-item i { color: var(--accent-1); font-size: 1.1rem; }
-@keyframes marquee { to { transform: translateX(-50%); } }   /* isi digandakan, jadi -50% = loop mulus */
 
 /* --- Spotlight / command palette --- */
 .spot-fab {
@@ -1242,7 +1213,7 @@ html, body { max-width: 100%; overflow-x: clip; }
     .spot-fab { left: 14px; bottom: 14px; padding: 13px 15px; }
     .spot-fab span, .spot-fab kbd, .spot-hint { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } .loader { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .loader { transition: none; } }
 
 /* Chip UI/UX turun sedikit agar tidak menimpa nama saat animasi mengambang */
 .chip.c3 { bottom: -12%; }
